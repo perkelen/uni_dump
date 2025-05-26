@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вкусно без точки</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin: 20px 0;
+        }
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product {
+            width: calc(25% - 20px); 
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .product img {
+            width: 180px; 
+            height: 180px; 
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .product h3 {
+            margin: 10px 0;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .price {
+            font-size: 1.2em;
+            color: #e91e63;
+            margin: 10px 0;
+        }
+
+        .add-to-cart {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 14px;
+        }
+
+        .add-to-cart:hover {
+            background-color: #45a049;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            display: flex;
+            gap: 20px;
+        }
+
+        .modal-image {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .modal-text {
+            flex: 1;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .rating {
+            color: #ff9800;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Вкусно без точки</h1>
+    <div class="products">
+
+        <div class="product" data-description="Сочный и сладкий киви" data-rating="5">
+            <img src="C:\Users\Asus\Downloads\dz_magez\1.jpg" alt="Киви">
+            <h3>Киви</h3>
+            <div class="price">₽98</div>
+            <button class="add-to-cart">Корзина</button>
+        </div>
+
+
+        <div class="product" data-description="Свекла — супер классная" data-rating="4">
+            <img src="C:\Users\Asus\Downloads\dz_magez\5.jpg" alt="Свекла">
+            <h3>Свекла</h3>
+            <div class="price">₽49</div>
+            <button class="add-to-cart">Корзина</button>
+        </div>
+
+
+        <div class="product" data-description="Редька маргеланская — абалденная" data-rating="5">
+            <img src="C:\Users\Asus\Downloads\dz_magez\3.jpg" alt="Редька маргеланская">
+            <h3>Редька маргеланская</h3>
+            <div class="price">₽79</div>
+            <button class="add-to-cart">Корзина</button>
+        </div>
+
+
+        <div class="product" data-description="Картофель Батат — стоит брать" data-rating="4">
+            <img src="C:\Users\Asus\Downloads\dz_magez\4.jpg" alt="Картофель Батат">
+            <h3>Картофель Батат</h3>
+            <div class="price">₽89</div>
+            <button class="add-to-cart">Корзина</button>
+        </div>
+
+
+        <div class="product" data-description="Айва — ну это вообще отпад" data-rating="4">
+            <img src="C:\Users\Asus\Downloads\dz_magez\2.jpg" alt="Айва">
+            <h3>Айва</h3>
+            <div class="price">₽129</div>
+            <button class="add-to-cart">Корзина</button>
+        </div>
+
+ 
+        <div class="product" data-description="Помело желтое — кайфовое" data-rating="5">
+            <img src="C:\Users\Asus\Downloads\dz_magez\6.jpg" alt="Помело желтое">
+            <h3>Помело желтое</h3>
+            <div class="price">₽199</div>
+            <button class="add-to-cart">Корзина</button>
+        </div>
+
+
+        <div class="product" data-description="Виноград Томпсон - не вино" data-rating="3">
+            <img src="C:\Users\Asus\Downloads\dz_magez\7.jpg" alt="Виноград Томпсон">
+            <h3>Виноград Томпсон</h3>
+            <div class="price">₽149</div>
+            <button class="add-to-cart">Корзина</button>
+        </div>
+
+
+        <div class="product" data-description="Чипсы Mission — пойдёт" data-rating="4">
+            <img src="C:\Users\Asus\Downloads\dz_magez\8.jpg" alt="Чипсы Mission">
+            <h3>Чипсы Mission</h3>
+            <div class="price">₽99</div>
+            <button class="add-to-cart">Корзина</button>
+        </div>
+
+
+        <div class="product" data-description="Лимонад SWAG! — свага" data-rating="5">
+            <img src="C:\Users\Asus\Downloads\dz_magez\9.jpg" alt="Лимонад SWAG!">
+            <h3>Лимонад SWAG!</h3>
+            <div class="price">₽69</div>
+            <button class="add-to-cart">Корзина</button>
+        </div>
+
+
+        <div class="product" data-description="Пицца La Trattoria — вкус Италии" data-rating="5">
+            <img src="C:\Users\Asus\Downloads\dz_magez\10.jpg" alt="Пицца La Trattoria">
+            <h3>Пицца La Trattoria</h3>
+            <div class="price">₽499</div>
+            <button class="add-to-cart">Корзина</button>
+        </div>
+
+
+        <div class="product" data-description="Арахис — хрустящий и вкусный" data-rating="4">
+            <img src="C:\Users\Asus\Downloads\dz_magez\11.jpg" alt="Арахис">
+            <h3>Арахис</h3>
+            <div class="price">₽89</div>
+            <button class="add-to-cart">Корзина</button>
+        </div>
+
+ 
+        <div class="product" data-description="Бекон — ароматный и сочный" data-rating="5">
+            <img src="C:\Users\Asus\Downloads\dz_magez\12.jpg" alt="Бекон">
+            <h3>Бекон</h3>
+            <div class="price">₽199</div>
+            <button class="add-to-cart">Корзина</button>
+        </div>
+    </div>
+
+
+    <div class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img class="modal-image" src="" alt="Увеличенное изображение">
+            <div class="modal-text">
+                <h2 class="modal-title"></h2>
+                <div class="modal-description"></div>
+                <div class="rating"></div>
+                <div class="modal-price"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const product = this.closest('.product');
+                const modal = document.querySelector('.modal');
+                const modalImg = modal.querySelector('.modal-image');
+                const modalTitle = modal.querySelector('.modal-title');
+                const modalDesc = modal.querySelector('.modal-description');
+                const modalRating = modal.querySelector('.rating');
+                const modalPrice = modal.querySelector('.modal-price');
+
+                modalImg.src = product.querySelector('img').src;
+                modalTitle.textContent = product.querySelector('h3').textContent;
+                modalDesc.textContent = product.dataset.description;
+                modalPrice.textContent = product.querySelector('.price').textContent;
+                
+                const ratingValue = parseInt(product.dataset.rating);
+                modalRating.innerHTML = '★'.repeat(ratingValue) + '☆'.repeat(5 - ratingValue);
+
+                modal.style.display = 'flex';
+            });
+        });
+
+        document.querySelector('.close').addEventListener('click', function() {
+            document.querySelector('.modal').style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target === document.querySelector('.modal')) {
+                document.querySelector('.modal').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Интернет-магазин</title>
+    <link href="https://fonts.googleapis.com/css2?family=Style+Regular&family=Grotesk&family=Gothic&family=Verdana&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0; 
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Style Regular', 'Helvetica';
+            background-color: white;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            background: transparent;
+            position: relative;
+        }
+
+        .top-row {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 10px;
+        }
+
+        .city-label {
+            font-size: 18px;
+            font-weight: bold;
+            color: #86888e;
+            margin-right: 20px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .logo-placeholder {
+            width: 50px;
+            height: 50px;
+            background-image: url("C:/Users/Asus/Downloads/dz_magez/1.png");
+            background-size: cover;
+            border-radius: 8px;
+            margin: 0 auto; /* центрирование по умолчанию */
+            margin-right: 550px; /* смещение лого */
+        }
+
+        .nav-row {
+            display: flex;
+            justify-content: center;
+            background-color: rgba(245, 242, 245, 0.5);
+            padding: 10px 20px;
+            border-radius: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-item {
+            margin: 0 15px;
+            cursor: pointer;
+            position: relative;
+            text-decoration: none;
+            color: rgba(35, 37, 39, 0.9);
+            font-weight: bold;
+            transition: color 0.3s, background-color 0.3s;
+            padding: 10px 20px;
+            border-radius: 20px;
+        }
+
+        .menu-item:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .city-option, .category-option {
+            padding: 10px;
+            color: #333;
+            text-decoration: none;
+            display: block;
+            transition: color 0.3s;
+        }
+
+        .city-option:hover, .category-option:hover {
+            color: #4CAF50; /* при наведении */
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 30px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            transition: all 0.3s;
+            position: relative;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .product-card:hover {
+            transform: scale(1.2);
+            font-weight: bold;
+            z-index: 1;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .product-card h3 {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .product-card p {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .product-price {
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .product-card input {
+            width: calc(100% - 50px);
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .cart-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .add-to-cart {
+            background-image: url("C:/Users/Asus/Downloads/dz_magez/2.png");
+            background-size: cover;
+            background-position: center;
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, filter 0.2s;
+        }
+
+        .add-to-cart:hover {
+            transform: scale(1.1);
+            filter: brightness(90%);
+        }
+
+        .add-to-cart:active {
+            transform: scale(0.95);
+            filter: brightness(80%);
+        }
+
+        .promo-slider {
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mySlides {
+            position: relative;
+            width: 1155px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .mySlides img {
+            width: 100%;
+            height: 370px;
+            display: block;
+            border-radius: 15px;
+        }
+
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: #333;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 2;
+        }
+
+        .prev {
+            left: 20px;
+        }
+
+        .next {
+            right: 20px;
+        }
+
+        .mySlides:hover .prev {
+            opacity: 1;
+        }
+
+        .mySlides:hover .next {
+            opacity: 1;
+        }
+
+        .mySlides::before,
+        .mySlides::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1;
+        }
+
+        .mySlides::before {
+            left: 0;
+            background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+        }
+
+        .mySlides::after { /* бели град */
+            right: 0;
+            background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+        }
+
+        .mySlides:hover::before {
+            opacity: 1;
+        }
+
+        .mySlides:hover::after {
+            opacity: 1;
+        }
+
+        .dots-container {
+            text-align: right;
+            position: absolute;
+            bottom: 52px;
+            margin-left: 245px;
+            z-index: 2;
+        }
+
+        .dot {
+            cursor: pointer;
+            height: 8px;
+            width: 8px;
+            margin: 0 4px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        .active, .dot:hover {
+            background-color: #4CAF50;
+        }
+
+        .fade {
+            animation-name: fade;
+            animation-duration: 2.0s;
+        }
+
+        @keyframes fade {
+            from {opacity: .4} 
+            to {opacity: 1}
+        }
+
+        .deals-slider {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            background-color: #fff;
+            margin: 20px 0;
+        }
+
+        .deal-item {
+            width: 150px;
+            height: 150px;
+            background-color: #4CAF50;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .deal-item:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s;
+        }
+
+        @media (max-width: 1400px) {
+            .mySlides {
+                width: 100%;
+            }
+        }
+
+        /* модальные окна */
+        #feedback-modal, #cart-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 15px; 
+        }
+
+        #feedback-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #feedback-form label {
+            margin-top: 10px;
+        }
+
+        #feedback-form input, #feedback-form select, #feedback-form textarea {
+            margin-top: 5px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #feedback-form button {
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: fit-content;
+        }
+
+        #feedback-form button:hover {
+            background-color: #45a049;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #ff4d4d;
+            cursor: pointer;
+        }
+
+        .close-button:hover {
+            color: #cc0000;
+        }
+
+        #cart-items {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-item-image {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 10px;
+        }
+
+        .cart-item-info {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .cart-item-name {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .cart-item-price {
+            text-align: right;
+            margin-right: 10px;
+            flex: 0 0 auto;
+            min-width: 80px;
+        }
+
+        .cart-item button {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cart-item button:hover {
+            background-color: #cc0000;
+        }
+
+        #clear-cart {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: fit-content;
+        }
+
+        #clear-cart:hover {
+            background-color: #45a049;
+        }
+
+        /* стиль "Итого" */
+        #cart-total {
+            text-align: right; 
+            margin-top: 10px; 
+            color: #4CAF50;
+            font-weight: bold; 
+            padding-right: 20px; 
+        }
+        
+        /* Оверлей для модальных окон */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <!-- верхняя панель -->
+    <div class="menu">
+        <div class="top-row">
+            <div class="city-label dropdown">
+                  ▼ Москва
+                <div class="dropdown-content">
+                    <div class="city-option">Москва</div>
+                    <div class="city-option">Санкт-Петербург</div>
+                    <div class="city-option">Калуга</div>
+                    <div class="city-option">Новосибирск</div>
+                </div>
+            </div>
+            <div class="logo-placeholder"></div>
+        </div>
+        <div class="nav-row">
+            <div class="menu-item dropdown" id="open-feedback">
+                Обратная связь
+                <div class="dropdown-content">
+                    <div class="category-option">Форма обратной связи</div>
+                </div>
+            </div>
+            <div class="menu-item dropdown">
+                Контакты
+                <div class="dropdown-content">
+                    <div class="category-option">Адрес: Москва, ул. Пушкина д. Колотушкина, 3</div>
+                    <div class="category-option">Телефон: +7 (800) 555-35-35</div>
+                    <div class="category-option">Email: marazmatiky338@gmail.com</div>
+                </div>
+            </div>
+            <div class="menu-item dropdown">
+                Оплата
+                <div class="dropdown-content">
+                    <div class="category-option">Наличные при получении</div>
+                    <div class="category-option">Банковские карты (Visa, MasterCard)</div>
+                    <div class="category-option">Электронные кошельки (Qiwi, WebMoney)</div>
+                    <div class="category-option">Онлайн-платежи через PayPal</div>
+                </div>
+            </div>
+            <div class="menu-item dropdown">
+                Каталог
+                <div class="dropdown-content">
+                    <div class="category-option">Овощи</div>
+                    <div class="category-option">Фрукты</div>
+                    <div class="category-option">Напитки</div>
+                    <div class="category-option">Выпечка</div>
+                    <div class="category-option">Заморозка</div>
+                </div>
+            </div>
+            <div class="menu-item" id="cart-link">
+                Корзина (<span id="cart-count">0</span>)
+            </div>
+        </div>
+    </div>
+
+    <div class="promo-slider">
+        <div class="mySlides fade">
+            <img src="C:\Users\Asus\Downloads\dz_magez\20.jpg" alt="Slide 1">
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
+        </div>
+        <div class="mySlides fade">
+            <img src="C:\Users\Asus\Downloads\dz_magez\21.jpg" alt="Slide 2">
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
+        </div>
+        <div class="mySlides fade">
+            <img src="C:\Users\Asus\Downloads\dz_magez\22.jpg" alt="Slide 3">
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
+        </div>
+        <div class="mySlides fade">
+            <img src="C:\Users\Asus\Downloads\dz_magez\23.jpg" alt="Slide 4">
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
+        </div>
+        <div class="mySlides fade">
+            <img src="C:\Users\Asus\Downloads\dz_magez\24.jpg" alt="Slide 5">
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
+        </div>
+
+        <!-- тчки -->
+        <div class="dots-container">
+            <span class="dot" onclick="currentSlide(1)"></span> 
+            <span class="dot" onclick="currentSlide(2)"></span> 
+            <span class="dot" onclick="currentSlide(3)"></span> 
+            <span class="dot" onclick="currentSlide(4)"></span> 
+            <span class="dot" onclick="currentSlide(5)"></span> 
+        </div>
+    </div>
+
+    <!-- товары -->
+    <div class="products">
+        <div class="product-card">
+            <img src="C:\Users\Asus\Downloads\dz_magez\5.jpg" class="product-img">
+            <h3>Свекла</h3>
+            <p>— супер классная</p>
+            <div class="product-price">45 руб/кг</div>
+            <div class="cart-wrapper">
+                <input type="number" value="1" min="1">
+                <button class="add-to-cart" data-price="45" data-image="C:\Users\Asus\Downloads\dz_magez\5.jpg"></button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="C:\Users\Asus\Downloads\dz_magez\1.jpg" class="product-img">
+            <h3>Актинидия</h3>
+            <p>— вообще крутяк</p>
+            <div class="product-price">320 руб/кг</div>
+            <div class="cart-wrapper">
+                <input type="number" value="1" min="1">
+                <button class="add-to-cart" data-price="320" data-image="C:\Users\Asus\Downloads\dz_magez\1.jpg"></button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="C:\Users\Asus\Downloads\dz_magez\3.jpg" class="product-img">
+            <h3>Редька маргеланская</h3>
+            <p>— абалденная</p>
+            <div class="product-price">65 руб/кг</div>
+            <div class="cart-wrapper">
+                <input type="number" value="1" min="1">
+                <button class="add-to-cart" data-price="65" data-image="C:\Users\Asus\Downloads\dz_magez\3.jpg"></button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="C:\Users\Asus\Downloads\dz_magez\4.jpg" class="product-img">
+            <h3>Картофель Батат</h3>
+            <p> — стоит брать</p>
+            <div class="product-price">120 руб/кг</div>
+            <div class="cart-wrapper">
+                <input type="number" value="1" min="1">
+                <button class="add-to-cart" data-price="120" data-image="C:\Users\Asus\Downloads\dz_magez\4.jpg"></button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="C:\Users\Asus\Downloads\dz_magez\2.jpg" class="product-img">
+            <h3>Айва</h3>
+            <p> — ну это вообще отпад</p>
+            <div class="product-price">280 руб/кг</div>
+            <div class="cart-wrapper">
+                <input type="number" value="1" min="1">
+                <button class="add-to-cart" data-price="280" data-image="C:\Users\Asus\Downloads\dz_magez\2.jpg"></button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="C:\Users\Asus\Downloads\dz_magez\6.jpg" class="product-img">
+            <h3>Помело желтое</h3>
+            <p>— кайфовое</p>
+            <div class="product-price">180 руб/шт</div>
+            <div class="cart-wrapper">
+                <input type="number" value="1" min="1">
+                <button class="add-to-cart" data-price="180" data-image="C:\Users\Asus\Downloads\dz_magez\6.jpg"></button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="C:\Users\Asus\Downloads\dz_magez\7.jpg" class="product-img">
+            <h3>Виноград Томпсон</h3>
+            <p> - не вино</p>
+            <div class="product-price">450 руб/кг</div>
+            <div class="cart-wrapper">
+                <input type="number" value="1" min="1">
+                <button class="add-to-cart" data-price="450" data-image="C:\Users\Asus\Downloads\dz_magez\7.jpg"></button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="C:\Users\Asus\Downloads\dz_magez\8.jpg" class="product-img">
+            <h3>Чипсы Mission</h3>
+            <p>— пойдёт</p>
+            <div class="product-price">95 руб/уп</div>
+            <div class="cart-wrapper">
+                <input type="number" value="1" min="1">
+                <button class="add-to-cart" data-price="95" data-image="C:\Users\Asus\Downloads\dz_magez\8.jpg"></button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="C:\Users\Asus\Downloads\dz_magez\9.jpg" class="product-img">
+            <h3>Лимонад SWAG!</h3>
+            <p>— свага</p>
+            <div class="product-price">85 руб/бут</div>
+            <div class="cart-wrapper">
+                <input type="number" value="1" min="1">
+                <button class="add-to-cart" data-price="85" data-image="C:\Users\Asus\Downloads\dz_magez\9.jpg"></button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="C:\Users\Asus\Downloads\dz_magez\10.jpg" class="product-img">
+            <h3>Пицца La Trattoria</h3>
+            <p>— это да</p>
+            <div class="product-price">390 руб/шт</div>
+            <div class="cart-wrapper">
+                <input type="number" value="1" min="1">
+                <button class="add-to-cart" data-price="390" data-image="C:\Users\Asus\Downloads\dz_magez\10.jpg"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- модальное окно обратной связи -->
+    <div id="feedback-modal">
+        <button class="close-button" id="close-feedback">×</button>
+        <h2>Обратная связь</h2>
+        <form id="feedback-form">
+            <label for="question-type">Тип вопроса:</label>
+            <select id="question-type" required>
+                <option value="Общий">Общий</option>
+                <option value="Технический">Технический</option>
+                <option value="Другое">Другое</option>
+            </select>
+            <label for="message">Сообщение:</label>
+            <textarea id="message" required></textarea>
+            <label for="file">Файл:</label>
+            <input type="file" id="file">
+            <label for="city-feedback">Город:</label>
+            <select id="city-feedback" required>
+                <option value="Москва">Москва</option>
+                <option value="Санкт-Петербург">Санкт-Петербург</option>
+                <option value="Новосибирск">Новосибирск</option>
+                <option value="Калуга">Калуга</option>
+            </select>
+            <label for="name">Имя:</label>
+            <input type="text" id="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+
+    <!-- модальное окно корзины -->
+    <div id="cart-modal">
+        <button class="close-button" id="close-cart">×</button>
+        <h2>Корзина</h2>
+        <div id="cart-items"></div>
+        <!-- добавленная строка "Итого" -->
+        <div id="cart-total"></div>
+        <button id="clear-cart">Очистить корзину</button>
+    </div>
+    
+    <!-- Оверлей для модальных окон -->
+    <div class="modal-overlay" id="modal-overlay"></div>
+
+    <script>
+        // слайдер
+        let slideIndex = 1;
+        let slideInterval;
+        
+        // Инициализация слайдера
+        showSlides(slideIndex);
+        startSlideShow();
+        
+        function startSlideShow() {
+            slideInterval = setInterval(() => {
+                plusSlides(1);
+            }, 3000);
+        }
+        
+        function resetSlideInterval() {
+            clearInterval(slideInterval);
+            startSlideShow();
+        }
+
+        function showSlides(n) {
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+            
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            
+            slides[slideIndex-1].style.display = "block";  
+            dots[slideIndex-1].className += " active";
+        }
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+            resetSlideInterval();
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+            resetSlideInterval();
+        }
+
+        // изменение надписи при выборе города
+        document.querySelectorAll('.city-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const cityLabel = document.querySelector('.city-label');
+                cityLabel.textContent = '▼ ' + this.textContent;
+            });
+        });
+
+        // фильтрация товаров по категориям
+        document.querySelectorAll('.category-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const category = this.textContent;
+                filterProducts(category);
+            });
+        });
+
+        function filterProducts(category) {
+            const products = document.querySelectorAll('.product-card');
+            products.forEach(product => {
+                const productCategory = product.querySelector('h3').textContent;
+                if (category === 'Овощи' && ['Свекла', 'Редька маргеланская', 'Картофель Батат'].includes(productCategory)) {
+                    product.style.display = 'block';
+                } else if (category === 'Фрукты' && ['Актинидия', 'Айва', 'Помело желтое', 'Виноград Томпсон'].includes(productCategory)) {
+                    product.style.display = 'block';
+                } else if (category === 'Напитки' && ['Лимонад SWAG!'].includes(productCategory)) {
+                    product.style.display = 'block';
+                } else if (category === 'Заморозка' && ['Пицца La Trattoria'].includes(productCategory)) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+
+        // корзина и обратная связь
+        const cart = [];
+        const cartCount = document.getElementById('cart-count');
+        const cartLink = document.getElementById('cart-link');
+        const cartModal = document.getElementById('cart-modal');
+        const closeCart = document.getElementById('close-cart');
+        const cartItems = document.getElementById('cart-items');
+        const clearCartButton = document.getElementById('clear-cart');
+        const feedbackModal = document.getElementById('feedback-modal');
+        const openFeedback = document.getElementById('open-feedback');
+        const closeFeedback = document.getElementById('close-feedback');
+        const feedbackForm = document.getElementById('feedback-form');
+        const modalOverlay = document.getElementById('modal-overlay');
+
+        function showModal(modal) {
+            modal.style.display = 'block';
+            modalOverlay.style.display = 'block';
+        }
+
+        function hideModal(modal) {
+            modal.style.display = 'none';
+            modalOverlay.style.display = 'none';
+        }
+
+        cartLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            showModal(cartModal);
+            updateCartItems();
+        });
+
+        closeCart.addEventListener('click', function() {
+            hideModal(cartModal);
+        });
+
+        openFeedback.addEventListener('click', function(e) {
+            e.preventDefault();
+            showModal(feedbackModal);
+        });
+
+        closeFeedback.addEventListener('click', function() {
+            hideModal(feedbackModal);
+        });
+
+        modalOverlay.addEventListener('click', function() {
+            hideModal(cartModal);
+            hideModal(feedbackModal);
+        });
+
+        clearCartButton.addEventListener('click', function() {
+            cart.length = 0;
+            updateCart();
+            updateCartItems();
+        });
+
+        feedbackForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (this.checkValidity()) {
+                const formData = {
+                    questionType: document.getElementById('question-type').value,
+                    message: document.getElementById('message').value,
+                    city: document.getElementById('city-feedback').value,
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    file: document.getElementById('file').files[0] ? document.getElementById('file').files[0].name : 'Файл не выбран'
+                };
+
+                // Вывод данных в консоль
+                console.log('Данные формы:', formData);
+
+                // Сохранение данных в localStorage
+                localStorage.setItem('feedbackData', JSON.stringify(formData));
+
+                alert('Форма успешно отправлена!');
+                this.reset();
+                hideModal(feedbackModal);
+            } else {
+                alert('Пожалуйста, заполните все поля формы.');
+            }
+        });
+
+        // Для просмотра данных из localStorage
+        const savedData = localStorage.getItem('feedbackData');
+        if (savedData) {
+            console.log('Сохраненные данные:', JSON.parse(savedData));
+        }
+
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const productCard = this.closest('.product-card');
+                const productName = productCard.querySelector('h3').textContent;
+                const productPrice = parseFloat(this.getAttribute('data-price'));
+                const productImage = this.getAttribute('data-image');
+                const quantity = parseInt(productCard.querySelector('input').value);
+
+                const existingProduct = cart.find(item => item.name === productName);
+                if (existingProduct) {
+                    existingProduct.quantity += quantity;
+                } else {
+                    cart.push({
+                        name: productName,
+                        price: productPrice,
+                        quantity: quantity,
+                        image: productImage
+                    });
+                }
+                updateCart();
+            });
+        });
+
+        function updateCart() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = count;
+        }
+
+        function updateCartItems() {
+            cartItems.innerHTML = '';
+            let total = 0; // общ сумма
+
+            cart.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'cart-item';
+                itemDiv.innerHTML = `
+                    <div class="cart-item-info">
+                        <img src="${item.image}" class="cart-item-image">
+                        <span class="cart-item-name">${item.name} (${item.quantity} шт.)</span>
+                    </div>
+                    <span class="cart-item-price">${(item.price * item.quantity).toFixed(2)} руб.</span>
+                    <button class="remove-item" data-name="${item.name}">Удалить</button>
+                `;
+                cartItems.appendChild(itemDiv);
+
+                // добавляем
+                total += item.price * item.quantity;
+            });
+
+            const cartTotal = document.getElementById('cart-total');
+            cartTotal.textContent = `Итого: ${total.toFixed(2)} руб.`;
+
+            // удалене товара
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productName = this.getAttribute('data-name');
+                    const index = cart.findIndex(item => item.name === productName);
+                    if (index !== -1) {
+                        cart.splice(index, 1);
+                        updateCart();
+                        updateCartItems();
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
